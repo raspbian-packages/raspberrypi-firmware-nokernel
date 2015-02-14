@@ -1,0 +1,12 @@
+raspberrypi-firmware-nokernel (___version___~nokernel1) wheezy-staging; urgency=low
+
+  * Fix name of some files in debian/ to match renamed firmware package
+  * Set source format to 1.0 since we don't have an orig tarball and
+    3.0 (native) does stupid shit like ignoring files.
+  * Remove kernel, reduce list of files to apply diversion hack to to reflect
+    removal of kernel kernel.
+  * Rename firmware package to reflect the fact it doesn't contain a kernel
+  * Alter dependencies as needed to reflect renamed firmware package
+
+ -- Peter Michael Green <plugwash@raspbian.org>  ___date___
+

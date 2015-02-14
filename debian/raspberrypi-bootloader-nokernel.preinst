@@ -1,0 +1,29 @@
+#!/bin/sh
+mkdir -p /usr/share/rpikernelhack/overlays
+mkdir -p /boot/overlays
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/LICENCE.broadcom /boot/LICENCE.broadcom
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2708-rpi-b-plus.dtb /boot/bcm2708-rpi-b-plus.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2708-rpi-b.dtb /boot/bcm2708-rpi-b.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2709-rpi-2-b.dtb /boot/bcm2709-rpi-2-b.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bootcode.bin /boot/bootcode.bin
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/fixup.dat /boot/fixup.dat
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/fixup_cd.dat /boot/fixup_cd.dat
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/fixup_x.dat /boot/fixup_x.dat
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/start.elf /boot/start.elf
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/start_cd.elf /boot/start_cd.elf
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/start_x.elf /boot/start_x.elf
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/README /boot/overlays/README
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/ds1307-rtc-overlay.dtb /boot/overlays/ds1307-rtc-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-amp-overlay.dtb /boot/overlays/hifiberry-amp-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-dac-overlay.dtb /boot/overlays/hifiberry-dac-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-dacplus-overlay.dtb /boot/overlays/hifiberry-dacplus-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-digi-overlay.dtb /boot/overlays/hifiberry-digi-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/iqaudio-dac-overlay.dtb /boot/overlays/iqaudio-dac-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/iqaudio-dacplus-overlay.dtb /boot/overlays/iqaudio-dacplus-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/lirc-rpi-overlay.dtb /boot/overlays/lirc-rpi-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pcf2127-rtc-overlay.dtb /boot/overlays/pcf2127-rtc-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pcf8523-rtc-overlay.dtb /boot/overlays/pcf8523-rtc-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pps-gpio-overlay.dtb /boot/overlays/pps-gpio-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/w1-gpio-overlay.dtb /boot/overlays/w1-gpio-overlay.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/w1-gpio-pullup-overlay.dtb /boot/overlays/w1-gpio-pullup-overlay.dtb
+#DEBHELPER#

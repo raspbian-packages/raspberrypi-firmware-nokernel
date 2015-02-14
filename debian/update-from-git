@@ -1,0 +1,34 @@
+#!/bin/bash -ev
+rm -rf asbgit
+git clone --depth 1 https://github.com/asb/firmware.git asbgit
+cp asbgit/README .
+rm -rf boot/*
+cd asbgit/boot
+cp -a LICENCE.broadcom  bootcode.bin  fixup*.dat  start*.elf *.dtb overlays ../../boot
+cd ../..
+rm -rf documentation
+cp -a asbgit/documentation .
+rm -rf opt
+cp -a asbgit/opt .
+rm -rf hardfp
+cp -a asbgit/hardfp .
+cp -a asbgit/debian/* debian/
+rm debian/changelog
+cat debian/changelogtemplate | sed s/___version___/`dpkg-parsechangelog -lasbgit/debian/changelog | grep-dctrl firmware -n -s Version`/ | sed "s/___date___/`date -uR`/" > debian/changelog
+cat asbgit/debian/changelog >> debian/changelog
+echo 1.0 > debian/source/format
+patch -p0 < debian/control.diff
+patch -p0 < debian/copyright.diff
+rm debian/raspberrypi-bootloader.install
+rm debian/raspberrypi-bootloader.preinst
+rm debian/raspberrypi-bootloader.postinst
+sed -i 's/raspberrypi-bootloader\./raspberrypi-bootloader-nokernel./' debian/gen_bootloader_postinst_preinst.sh
+cd debian
+chmod 755 gen_bootloader_postinst_preinst.sh
+./gen_bootloader_postinst_preinst.sh
+cd ..
+rm -rf asbgit
+
+rm -rf userland
+git clone --depth 1 https://github.com/raspberrypi/userland.git userland
+rm -rf userland/.git

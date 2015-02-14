@@ -1,0 +1,77 @@
+#!/bin/sh
+rm -f /boot/LICENCE.broadcom
+dpkg-divert --package rpikernelhack --remove --rename /boot/LICENCE.broadcom
+sync
+rm -f /boot/bcm2708-rpi-b-plus.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/bcm2708-rpi-b-plus.dtb
+sync
+rm -f /boot/bcm2708-rpi-b.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/bcm2708-rpi-b.dtb
+sync
+rm -f /boot/bcm2709-rpi-2-b.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/bcm2709-rpi-2-b.dtb
+sync
+rm -f /boot/bootcode.bin
+dpkg-divert --package rpikernelhack --remove --rename /boot/bootcode.bin
+sync
+rm -f /boot/fixup.dat
+dpkg-divert --package rpikernelhack --remove --rename /boot/fixup.dat
+sync
+rm -f /boot/fixup_cd.dat
+dpkg-divert --package rpikernelhack --remove --rename /boot/fixup_cd.dat
+sync
+rm -f /boot/fixup_x.dat
+dpkg-divert --package rpikernelhack --remove --rename /boot/fixup_x.dat
+sync
+rm -f /boot/start.elf
+dpkg-divert --package rpikernelhack --remove --rename /boot/start.elf
+sync
+rm -f /boot/start_cd.elf
+dpkg-divert --package rpikernelhack --remove --rename /boot/start_cd.elf
+sync
+rm -f /boot/start_x.elf
+dpkg-divert --package rpikernelhack --remove --rename /boot/start_x.elf
+sync
+rm -f /boot/overlays/README
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/README
+sync
+rm -f /boot/overlays/ds1307-rtc-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/ds1307-rtc-overlay.dtb
+sync
+rm -f /boot/overlays/hifiberry-amp-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/hifiberry-amp-overlay.dtb
+sync
+rm -f /boot/overlays/hifiberry-dac-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/hifiberry-dac-overlay.dtb
+sync
+rm -f /boot/overlays/hifiberry-dacplus-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/hifiberry-dacplus-overlay.dtb
+sync
+rm -f /boot/overlays/hifiberry-digi-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/hifiberry-digi-overlay.dtb
+sync
+rm -f /boot/overlays/iqaudio-dac-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/iqaudio-dac-overlay.dtb
+sync
+rm -f /boot/overlays/iqaudio-dacplus-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/iqaudio-dacplus-overlay.dtb
+sync
+rm -f /boot/overlays/lirc-rpi-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/lirc-rpi-overlay.dtb
+sync
+rm -f /boot/overlays/pcf2127-rtc-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/pcf2127-rtc-overlay.dtb
+sync
+rm -f /boot/overlays/pcf8523-rtc-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/pcf8523-rtc-overlay.dtb
+sync
+rm -f /boot/overlays/pps-gpio-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/pps-gpio-overlay.dtb
+sync
+rm -f /boot/overlays/w1-gpio-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/w1-gpio-overlay.dtb
+sync
+rm -f /boot/overlays/w1-gpio-pullup-overlay.dtb
+dpkg-divert --package rpikernelhack --remove --rename /boot/overlays/w1-gpio-pullup-overlay.dtb
+sync
+#DEBHELPER#
