@@ -1,0 +1,40 @@
+#!/bin/bash -ev
+set -o pipefail
+rm -rf asbgit
+git clone --depth 1 https://github.com/rpi-distro/firmware.git asbgit
+cp asbgit/README .
+rm -rf boot/*
+cd asbgit/boot
+cp -a LICENCE.broadcom  bootcode.bin  fixup*.dat  start*.elf *.dtb overlays ../../boot
+cd ../..
+rm -rf documentation
+cp -a asbgit/documentation .
+rm -rf opt
+cp -a asbgit/opt .
+rm -rf hardfp
+cp -a asbgit/hardfp .
+cp -a asbgit/debian/* debian/
+rm debian/changelog
+#Use a variable here so that things error out correctly if grep-dctrl doesn't exist ( http://unix.stackexchange.com/questions/23026/how-can-i-get-bash-to-exit-on-backtick-failure-in-a-similar-way-to-pipefail )
+ASBVERSION=`dpkg-parsechangelog -lasbgit/debian/changelog | grep-dctrl firmware -n -s Version`
+cat debian/changelogtemplate | sed s/___version___/$ASBVERSION/ | sed "s/___date___/`date -uR`/" > debian/changelog
+cat asbgit/debian/changelog >> debian/changelog
+echo 1.0 > debian/source/format
+patch -p0 < debian/control.diff
+patch -p0 < debian/copyright.diff
+patch -p0 < debian/rules.diff
+rm debian/raspberrypi-bootloader.install
+rm debian/raspberrypi-bootloader.preinst
+rm debian/raspberrypi-bootloader.postinst
+sed -i 's/raspberrypi-bootloader\./raspberrypi-bootloader-nokernel./' debian/gen_bootloader_postinst_preinst.sh
+sed -i 's_\.\./boot/\*\.elf_../boot/*.elf ../boot/*.dtb ../boot/overlays/*_' debian/gen_bootloader_postinst_preinst.sh
+sed -i 's_rpikernelhack\\n_rpikernelhack/overlays\\n_' debian/gen_bootloader_postinst_preinst.sh
+cd debian
+chmod 755 gen_bootloader_postinst_preinst.sh
+./gen_bootloader_postinst_preinst.sh
+cd ..
+#rm -rf asbgit
+
+rm -rf userland
+git clone --depth 1 https://github.com/raspberrypi/userland.git userland
+rm -rf userland/.git

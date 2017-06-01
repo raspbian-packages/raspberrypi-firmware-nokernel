@@ -1,0 +1,22 @@
+#!/bin/sh
+if [ -f /etc/default/raspberrypi-kernel ]; then
+  . /etc/default/raspberrypi-kernel
+  INITRD=No
+  export INITRD
+  RPI_INITRD=No
+  export RPI_INITRD
+
+fi
+if [ -d "/etc/kernel/header_postinst.d" ]; then
+  run-parts -v --verbose --exit-on-error --arg=+ /etc/kernel/header_postinst.d
+  run-parts -v --verbose --exit-on-error --arg=-v7+ /etc/kernel/header_postinst.d
+fi
+
+if [ -d "/etc/kernel/header_postinst.d/+" ]; then
+  run-parts -v --verbose --exit-on-error --arg=+ /etc/kernel/header_postinst.d/+
+fi
+
+if [ -d "/etc/kernel/header_postinst.d/-v7+" ]; then
+  run-parts -v --verbose --exit-on-error --arg=-v7+ /etc/kernel/header_postinst.d/-v7+
+fi
+#DEBHELPER#

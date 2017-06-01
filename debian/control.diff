@@ -1,0 +1,86 @@
+--- asbgit/debian/control	2017-06-01 20:53:33.051204296 +0000
++++ debian/control	2017-06-01 22:19:11.029344645 +0000
+@@ -1,24 +1,24 @@
+-Source: raspberrypi-firmware
++Source: raspberrypi-firmware-nokernel
+ Priority: extra
+-Maintainer: Serge Schneider <serge@raspberrypi.org>
+-Build-Depends: debhelper (>= 8.0.0), quilt
++Maintainer: Peter Michael Green <plugwash@raspbian.org>
++Build-Depends: debhelper (>= 8.0.0), quilt, device-tree-compiler
+ Standards-Version: 3.9.6
+-Section: libs
++Section: firmware/libs
+ Homepage: https://github.com/raspberrypi/firmware
+ Vcs-Git: git@github.com:RPi-Distro/firmware.git
+ Vcs-Browser: https://github.com/RPi-Distro/firmware
+ 
+ Package: libraspberrypi0
+-Section: libs
++Section: firmware/libs
+ Architecture: armel armhf
+-Depends: raspberrypi-bootloader (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
++Depends: raspberrypi-bootloader-nokernel (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+ Description: EGL/GLES/OpenVG/etc. libraries for the Raspberry Pi's VideoCore IV
+  This package contains implementations of EGL, OpenGL ES, OpenVG, OpenWF
+  Composition, and others for the Raspberry Pi's VideoCore IV multimedia
+  processor.
+ 
+ Package: libraspberrypi-dev
+-Section: libdevel
++Section: firmware/libdevel
+ Architecture: armel armhf
+ Depends: libraspberrypi0 (= ${binary:Version}), ${misc:Depends}
+ Description: EGL/GLES/OpenVG/etc. libraries for the Raspberry Pi's VideoCore IV (headers)
+@@ -27,7 +27,7 @@
+  Pi's VideoCore IV multimedia processor.
+ 
+ Package: libraspberrypi-doc
+-Section: libdevel
++Section: firmware/libdevel
+ Architecture: armel armhf
+ Depends: libraspberrypi0 (= ${binary:Version}), ${misc:Depends}
+ Description: EGL/GLES/OpenVG/etc. libraries for the Raspberry Pi's VideoCore IV (headers)
+@@ -36,38 +36,17 @@
+  the Raspberry Pi's VideoCore IV multimedia processor.
+ 
+ Package: libraspberrypi-bin
+-Section: misc
++Section: firmware/misc
+ Architecture: armel armhf
+ Depends: libraspberrypi0 (= ${binary:Version}), ${misc:Depends}, device-tree-compiler
+ Description: Miscellaneous Raspberry Pi utilities
+  This package contains various utilities for interacting with the Raspberry
+  Pi's VideoCore IV.
+ 
+-Package: raspberrypi-bootloader
+-Section: admin
++Package: raspberrypi-bootloader-nokernel
++Conflicts: raspberrypi-bootloader, raspberrypi-kernel
++Section: firmware/admin
+ Architecture: armel armhf
+ Depends: ${misc:Depends}
+-Recommends: raspberrypi-kernel
+ Description: Raspberry Pi bootloader
+  This package contains the Raspberry Pi firmware and bootloader.
+-
+-Package: raspberrypi-kernel
+-Section: kernel
+-Architecture: armel armhf
+-Depends: ${misc:Depends}
+-Breaks: raspberrypi-bootloader (<<1.20160324-1)
+-Replaces: raspberrypi-bootloader (<<1.20160324-1)
+-Provides: linux-image
+-Description: Raspberry Pi bootloader
+- This package contains the Raspberry Pi Linux kernel.
+-
+-Package: raspberrypi-kernel-headers
+-Section: kernel
+-Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}
+-Provides: linux-headers
+-Description: Header files for the Raspberry Pi Linux kernel
+- This package provides the architecture-specific kernel header files for
+- the Raspberry Pi Linux kernel, generally used for building out-of-tree
+- kernel modules.
+-
