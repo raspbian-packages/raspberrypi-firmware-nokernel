@@ -1,0 +1,16 @@
+--- asbgit/debian/rules	2017-06-01 20:53:33.051204296 +0000
++++ debian/rules	2017-06-01 21:02:46.168753881 +0000
+@@ -22,3 +22,13 @@
+ 
+ override_dh_shlibdeps:
+ 	# this is not happy on armhf, let's just skip it
++
++override_dh_install:
++	dh_install
++	chmod 755 debian/fixupdtbs
++	debian/fixupdtbs
++
++override_dh_auto_clean:
++	rm -rf asbgit
++	dh_auto_clean
++	rm -f boot/*.dts

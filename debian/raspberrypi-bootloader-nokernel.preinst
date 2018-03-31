@@ -1,0 +1,179 @@
+#!/bin/sh
+mkdir -p /usr/share/rpikernelhack/overlays
+if [ -f "/boot/recovery.elf" ]; then
+  echo "/boot appears to be NOOBS recovery partition. Applying fix."
+  rootnum=`cat /proc/cmdline | sed -n 's|.*root=/dev/mmcblk0p\([0-9]*\).*|\1|p'`
+  if [ ! "$rootnum" ];then
+    echo "Could not determine root partition"
+    exit 1
+  fi
+
+  if ! grep -qE "/dev/mmcblk0p1\s+/boot" /etc/fstab; then
+    echo "Unexpected fstab entry"
+    exit 1
+  fi
+
+  boot="/dev/mmcblk0p$((rootnum-1))"
+  root="/dev/mmcblk0p${rootnum}"
+  sed /etc/fstab -i -e "s|^.* / |${root}  / |"
+  sed /etc/fstab -i -e "s|^.* /boot |${boot}  /boot |"
+  umount /boot
+  if [ $? -ne 0 ]; then
+    echo "Failed to umount /boot. Remount manually and run sudo apt-get install -f."
+    exit 1
+  else
+    mount /boot
+  fi
+fi
+
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/start.elf /boot/start.elf
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/start_cd.elf /boot/start_cd.elf
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/start_db.elf /boot/start_db.elf
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/start_x.elf /boot/start_x.elf
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2708-rpi-0-w.dtb /boot/bcm2708-rpi-0-w.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2708-rpi-b-plus.dtb /boot/bcm2708-rpi-b-plus.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2708-rpi-b.dtb /boot/bcm2708-rpi-b.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2708-rpi-cm.dtb /boot/bcm2708-rpi-cm.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2709-rpi-2-b.dtb /boot/bcm2709-rpi-2-b.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2710-rpi-3-b-plus.dtb /boot/bcm2710-rpi-3-b-plus.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2710-rpi-3-b.dtb /boot/bcm2710-rpi-3-b.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bcm2710-rpi-cm3.dtb /boot/bcm2710-rpi-cm3.dtb
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/README /boot/overlays/README
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/adau1977-adc.dtbo /boot/overlays/adau1977-adc.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/adau7002-simple.dtbo /boot/overlays/adau7002-simple.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/ads1015.dtbo /boot/overlays/ads1015.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/ads1115.dtbo /boot/overlays/ads1115.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/ads7846.dtbo /boot/overlays/ads7846.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/akkordion-iqdacplus.dtbo /boot/overlays/akkordion-iqdacplus.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/allo-boss-dac-pcm512x-audio.dtbo /boot/overlays/allo-boss-dac-pcm512x-audio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/allo-digione.dtbo /boot/overlays/allo-digione.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/allo-piano-dac-pcm512x-audio.dtbo /boot/overlays/allo-piano-dac-pcm512x-audio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/allo-piano-dac-plus-pcm512x-audio.dtbo /boot/overlays/allo-piano-dac-plus-pcm512x-audio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/applepi-dac.dtbo /boot/overlays/applepi-dac.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/at86rf233.dtbo /boot/overlays/at86rf233.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/audioinjector-addons.dtbo /boot/overlays/audioinjector-addons.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/audioinjector-wm8731-audio.dtbo /boot/overlays/audioinjector-wm8731-audio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/audremap.dtbo /boot/overlays/audremap.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/bmp085_i2c-sensor.dtbo /boot/overlays/bmp085_i2c-sensor.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/dht11.dtbo /boot/overlays/dht11.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/dionaudio-loco-v2.dtbo /boot/overlays/dionaudio-loco-v2.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/dionaudio-loco.dtbo /boot/overlays/dionaudio-loco.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/dpi18.dtbo /boot/overlays/dpi18.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/dpi24.dtbo /boot/overlays/dpi24.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/dwc-otg.dtbo /boot/overlays/dwc-otg.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/dwc2.dtbo /boot/overlays/dwc2.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/enc28j60-spi2.dtbo /boot/overlays/enc28j60-spi2.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/enc28j60.dtbo /boot/overlays/enc28j60.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/exc3000.dtbo /boot/overlays/exc3000.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/fe-pi-audio.dtbo /boot/overlays/fe-pi-audio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/goodix.dtbo /boot/overlays/goodix.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/googlevoicehat-soundcard.dtbo /boot/overlays/googlevoicehat-soundcard.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/gpio-ir-tx.dtbo /boot/overlays/gpio-ir-tx.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/gpio-ir.dtbo /boot/overlays/gpio-ir.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/gpio-key.dtbo /boot/overlays/gpio-key.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/gpio-poweroff.dtbo /boot/overlays/gpio-poweroff.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/gpio-shutdown.dtbo /boot/overlays/gpio-shutdown.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-amp.dtbo /boot/overlays/hifiberry-amp.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-dac.dtbo /boot/overlays/hifiberry-dac.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-dacplus.dtbo /boot/overlays/hifiberry-dacplus.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-digi-pro.dtbo /boot/overlays/hifiberry-digi-pro.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hifiberry-digi.dtbo /boot/overlays/hifiberry-digi.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hy28a.dtbo /boot/overlays/hy28a.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/hy28b.dtbo /boot/overlays/hy28b.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c-bcm2708.dtbo /boot/overlays/i2c-bcm2708.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c-gpio.dtbo /boot/overlays/i2c-gpio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c-mux.dtbo /boot/overlays/i2c-mux.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c-pwm-pca9685a.dtbo /boot/overlays/i2c-pwm-pca9685a.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c-rtc-gpio.dtbo /boot/overlays/i2c-rtc-gpio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c-rtc.dtbo /boot/overlays/i2c-rtc.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c-sensor.dtbo /boot/overlays/i2c-sensor.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c0-bcm2708.dtbo /boot/overlays/i2c0-bcm2708.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2c1-bcm2708.dtbo /boot/overlays/i2c1-bcm2708.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/i2s-gpio28-31.dtbo /boot/overlays/i2s-gpio28-31.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/iqaudio-dac.dtbo /boot/overlays/iqaudio-dac.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/iqaudio-dacplus.dtbo /boot/overlays/iqaudio-dacplus.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/iqaudio-digi-wm8804-audio.dtbo /boot/overlays/iqaudio-digi-wm8804-audio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/justboom-dac.dtbo /boot/overlays/justboom-dac.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/justboom-digi.dtbo /boot/overlays/justboom-digi.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/lirc-rpi.dtbo /boot/overlays/lirc-rpi.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mbed-dac.dtbo /boot/overlays/mbed-dac.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mcp23017.dtbo /boot/overlays/mcp23017.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mcp23s17.dtbo /boot/overlays/mcp23s17.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mcp2515-can0.dtbo /boot/overlays/mcp2515-can0.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mcp2515-can1.dtbo /boot/overlays/mcp2515-can1.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mcp3008.dtbo /boot/overlays/mcp3008.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mcp3202.dtbo /boot/overlays/mcp3202.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/media-center.dtbo /boot/overlays/media-center.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/midi-uart0.dtbo /boot/overlays/midi-uart0.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/midi-uart1.dtbo /boot/overlays/midi-uart1.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mmc.dtbo /boot/overlays/mmc.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mpu6050.dtbo /boot/overlays/mpu6050.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/mz61581.dtbo /boot/overlays/mz61581.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/papirus.dtbo /boot/overlays/papirus.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pi3-act-led.dtbo /boot/overlays/pi3-act-led.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pi3-disable-bt.dtbo /boot/overlays/pi3-disable-bt.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pi3-disable-wifi.dtbo /boot/overlays/pi3-disable-wifi.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pi3-miniuart-bt.dtbo /boot/overlays/pi3-miniuart-bt.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pibell.dtbo /boot/overlays/pibell.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/piscreen.dtbo /boot/overlays/piscreen.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/piscreen2r.dtbo /boot/overlays/piscreen2r.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pisound.dtbo /boot/overlays/pisound.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pitft22.dtbo /boot/overlays/pitft22.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pitft28-capacitive.dtbo /boot/overlays/pitft28-capacitive.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pitft28-resistive.dtbo /boot/overlays/pitft28-resistive.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pitft35-resistive.dtbo /boot/overlays/pitft35-resistive.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pps-gpio.dtbo /boot/overlays/pps-gpio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pwm-2chan.dtbo /boot/overlays/pwm-2chan.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pwm-ir-tx.dtbo /boot/overlays/pwm-ir-tx.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/pwm.dtbo /boot/overlays/pwm.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/qca7000.dtbo /boot/overlays/qca7000.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rotary-encoder.dtbo /boot/overlays/rotary-encoder.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-backlight.dtbo /boot/overlays/rpi-backlight.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-cirrus-wm5102.dtbo /boot/overlays/rpi-cirrus-wm5102.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-dac.dtbo /boot/overlays/rpi-dac.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-display.dtbo /boot/overlays/rpi-display.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-ft5406.dtbo /boot/overlays/rpi-ft5406.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-proto.dtbo /boot/overlays/rpi-proto.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-sense.dtbo /boot/overlays/rpi-sense.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rpi-tv.dtbo /boot/overlays/rpi-tv.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/rra-digidac1-wm8741-audio.dtbo /boot/overlays/rra-digidac1-wm8741-audio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sc16is750-i2c.dtbo /boot/overlays/sc16is750-i2c.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sc16is752-i2c.dtbo /boot/overlays/sc16is752-i2c.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sc16is752-spi1.dtbo /boot/overlays/sc16is752-spi1.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sdhost.dtbo /boot/overlays/sdhost.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sdio-1bit.dtbo /boot/overlays/sdio-1bit.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sdio.dtbo /boot/overlays/sdio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sdtweak.dtbo /boot/overlays/sdtweak.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/smi-dev.dtbo /boot/overlays/smi-dev.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/smi-nand.dtbo /boot/overlays/smi-nand.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/smi.dtbo /boot/overlays/smi.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi-gpio35-39.dtbo /boot/overlays/spi-gpio35-39.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi-rtc.dtbo /boot/overlays/spi-rtc.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi0-cs.dtbo /boot/overlays/spi0-cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi0-hw-cs.dtbo /boot/overlays/spi0-hw-cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi1-1cs.dtbo /boot/overlays/spi1-1cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi1-2cs.dtbo /boot/overlays/spi1-2cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi1-3cs.dtbo /boot/overlays/spi1-3cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi2-1cs.dtbo /boot/overlays/spi2-1cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi2-2cs.dtbo /boot/overlays/spi2-2cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/spi2-3cs.dtbo /boot/overlays/spi2-3cs.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/superaudioboard.dtbo /boot/overlays/superaudioboard.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/sx150x.dtbo /boot/overlays/sx150x.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/tinylcd35.dtbo /boot/overlays/tinylcd35.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/uart0.dtbo /boot/overlays/uart0.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/uart1.dtbo /boot/overlays/uart1.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/upstream-aux-interrupt.dtbo /boot/overlays/upstream-aux-interrupt.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/upstream.dtbo /boot/overlays/upstream.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/vc4-fkms-v3d.dtbo /boot/overlays/vc4-fkms-v3d.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/vc4-kms-v3d.dtbo /boot/overlays/vc4-kms-v3d.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/vga666.dtbo /boot/overlays/vga666.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/w1-gpio-pullup.dtbo /boot/overlays/w1-gpio-pullup.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/w1-gpio.dtbo /boot/overlays/w1-gpio.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/overlays/wittypi.dtbo /boot/overlays/wittypi.dtbo
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/fixup.dat /boot/fixup.dat
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/fixup_cd.dat /boot/fixup_cd.dat
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/fixup_db.dat /boot/fixup_db.dat
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/fixup_x.dat /boot/fixup_x.dat
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/bootcode.bin /boot/bootcode.bin
+dpkg-divert --package rpikernelhack --divert /usr/share/rpikernelhack/LICENCE.broadcom /boot/LICENCE.broadcom
+#DEBHELPER#

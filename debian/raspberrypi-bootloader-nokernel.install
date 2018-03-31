@@ -1,0 +1,2 @@
+# FIXME: make choice of CPU/GPU memory split a debconf option?
+boot/*

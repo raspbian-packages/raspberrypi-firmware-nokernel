@@ -1,0 +1,18 @@
+raspberrypi-firmware-nokernel (___version___~nokernel1) stretch-staging; urgency=low
+
+  * Fix name of some files in debian/ to match renamed firmware package
+  * Set source format to 1.0 since we don't have an orig tarball and
+    3.0 (native) does stupid shit like ignoring files.
+  * Remove kernel and it's associated package
+    + reduce list of files to apply diversion hack to to reflect removal of kernel kernel.
+    + remove dependency on raspberrypi-kernel.
+  * Rename firmware package to reflect the fact it doesn't depend on a kernel
+    (in earlier versions that it didn't provide a kernel)
+    + add conflicts on raspberrypi-bootloader and raspberrypi-kernel
+  * Add diversions for dtbs in firmware package.
+  * Alter dependencies as needed to reflect renamed firmware package
+  * Create directory needed for diversions.
+  * Alter dtbs for compatbility with 4.4 kernels.
+
+ -- Peter Michael Green <plugwash@raspbian.org>  ___date___
+

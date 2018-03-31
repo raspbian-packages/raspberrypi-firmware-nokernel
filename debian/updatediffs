@@ -1,0 +1,4 @@
+#!/bin/sh -ev
+diff -U 1 asbgit/debian/control debian/control | filterdiff --addnewprefix foo/ | filterdiff --strip 1 > debian/control.diff
+diff -U 1 asbgit/debian/copyright debian/copyright | filterdiff --addnewprefix foo/ | filterdiff --strip 1 > debian/copyright.diff
+diff -U 1 asbgit/debian/rules debian/rules | filterdiff --addnewprefix foo/ | filterdiff --strip 1 > debian/rules.diff
