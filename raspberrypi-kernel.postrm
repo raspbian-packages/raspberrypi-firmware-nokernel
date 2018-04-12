@@ -1,0 +1,13 @@
+#!/bin/sh
+export INITRD=No
+if [ -d "/etc/kernel/postrm.d" ]; then
+  run-parts -v --report --exit-on-error --arg=+ --arg=/boot/kernel.img /etc/kernel/postrm.d
+  run-parts -v --report --exit-on-error --arg=-v7+ --arg=/boot/kernel7.img /etc/kernel/postrm.d
+fi
+if [ -d "/etc/kernel/postrm.d/+" ]; then
+  run-parts -v --report --exit-on-error --arg=+ --arg=/boot/kernel.img /etc/kernel/postrm.d/+
+fi
+if [ -d "/etc/kernel/postrm.d/-v7+" ]; then
+  run-parts -v --report --exit-on-error --arg=-v7+ --arg=/boot/kernel7.img /etc/kernel/postrm.d/-v7+
+fi
+#DEBHELPER#

@@ -1,0 +1,8 @@
+hardfp/opt/vc/include/* /opt/vc/include/
+hardfp/opt/vc/lib/lib*.a /opt/vc/lib/
+hardfp/opt/vc/lib/pkgconfig/brcmvg.pc /opt/vc/lib/pkgconfig/
+hardfp/opt/vc/lib/pkgconfig/bcm_host.pc /opt/vc/lib/pkgconfig/
+hardfp/opt/vc/lib/pkgconfig/brcmglesv2.pc /opt/vc/lib/pkgconfig/
+hardfp/opt/vc/lib/pkgconfig/brcmegl.pc /opt/vc/lib/pkgconfig/
+hardfp/opt/vc/lib/pkgconfig/mmal.pc /opt/vc/lib/pkgconfig/
+hardfp/opt/vc/lib/pkgconfig/vcsm.pc /opt/vc/lib/pkgconfig/

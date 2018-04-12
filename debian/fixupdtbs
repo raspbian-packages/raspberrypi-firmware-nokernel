@@ -1,0 +1,22 @@
+#!/bin/bash -e 
+for file in boot/*.dtb; do
+	echo decompiling $file
+	dtc -o ${file%.dtb}.dts $file
+done
+
+for file in boot/bcm2708*.dts; do
+	sed -i 's/compatible = "brcm,bcm2835";/compatible = "brcm,bcm2835", "brcm,bcm2708";/' $file
+done
+
+for file in boot/bcm2709*.dts; do
+	sed -i 's/compatible = "brcm,bcm2836";/compatible = "brcm,bcm2836", "brcm,bcm2709";/' $file
+done
+
+for file in boot/bcm2710*.dts; do
+	sed -i 's/compatible = "brcm,bcm2837", "brcm,bcm2836";/compatible = "brcm,bcm2837", "brcm,bcm2836", "brcm,bcm2710", "brcm,bcm2709";/' $file
+done
+
+for file in boot/*.dts; do
+	echo compiling $file
+	dtc -o debian/raspberrypi-bootloader-nokernel/${file%.dts}.dtb $file
+done
